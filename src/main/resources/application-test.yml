@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: demo
+  datasource:
+    # 数据库连接地址
+    url: jdbc:mysql://localhost:3307/springboot_db_test?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false
+    # 数据库用户名
+    username: springboot_db_test
+    # 数据库密码
+    password: springboot_db_test
+    # 显式指定 MySQL 驱动类 (Spring Boot 3.x 推荐 com.mysql.cj.jdbc.Driver)
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      # 启动时自动根据实体类更新数据库表结构
+      ddl-auto: update
+    # 在控制台打印执行的 SQL 语句
+    show-sql: true
+    properties:
+      hibernate:
+        # 【关键】显式指定方言，防止自动检测失败
+        dialect: org.hibernate.dialect.MySQLDialect
+
+server:
+  port: 8080
+
