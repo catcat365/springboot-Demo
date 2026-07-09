@@ -38,7 +38,7 @@ public class UserService {
     public User updateUser(Long id, User userVo) {
 
         // 1. 先根据 ID 查询，如果不存在则抛出异常
-        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("用户ID 不存在" + id));
+        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("用户ID 不存在" + id));
 
 
         // 2. 更新非空字段
@@ -52,7 +52,7 @@ public class UserService {
 
     public void deleteUser(Long id) {
         if (!userRepository.existsById(id)) {
-            throw new RuntimeException("删除失败，用户ID" + id);
+            throw new IllegalArgumentException("删除失败，用户ID" + id);
         }
 
         userRepository.deleteById(id);
