@@ -1,3 +1,6 @@
+2026年07月09日 22:45:12
+注意： 可以直接在 IDEA pom.xml 添加启动器，有些不是依赖找不到，就自己去搜下，解决下冲突
+
 
 2026年07月09日 18:39:32
 
@@ -11,3 +14,19 @@
 2026年07月09日 21:33:52
 参数校验：给 User 加上 @NotBlank、@Email 注解，防止前端传入空名字或非法邮箱。
 
+2026年07月09日 22:45:05  完成
+
+
+接入 Swagger/Knife4j：自动生成在线接口文档，以后再也不用手写文档了。 #注意 springboot3.x，knife4j需要升级版本，并且要指定某些包，否额会冲突 catcat 27 分钟之前
+多环境配置：配置 dev、test、prod 三套配置文件，一键切换数据库连接。
+分页查询：当数据量达到上万条时，如何实现优雅的分页接口。
+
+
+2026年07月09日 22:46:03
+安全认证：接入 Spring Security 或 JWT，给你的接口加上登录和权限拦截。
+
+测试你的安全认证
+重启项目，打开 Knife4j 文档 (http://localhost:8080/doc.html) 测试：
+未登录直接访问：调用 GET /api/users，会返回 401 Unauthorized。
+登录获取 Token：调用 POST /api/auth/login，Body 传 {"username":"admin","password":"123456"}，返回类似 {"token":"eyJhbGciOi..."}。
+携带 Token 访问：在 Knife4j 左边点击“认证模块”，输入 Bearer 你的Token，然后再调用 GET /api/users，就能正常获取数据了！
