@@ -2,6 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -56,5 +58,13 @@ public class UserService {
         }
 
         userRepository.deleteById(id);
+    }
+
+    // 🌟 新增：分页查询方法
+    public Page<User> getUsersByPage(int page,int size) {
+        // PageRequest.of(page, size) 构建分页请求对象
+        // 注意：JPA 的页码是从 0 开始的，0 代表第一页
+        PageRequest pageRequest = PageRequest.of(page, size);
+        return userRepository.findAll(pageRequest);
     }
 }

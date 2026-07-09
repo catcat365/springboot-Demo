@@ -6,6 +6,7 @@ import com.example.demo.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -64,5 +65,14 @@ public class UserController {
         userService.deleteUser(id);
 
         return Result.success("删除用户成功，ID= " + id); // 🌟 包装为统一格式
+    }
+
+
+    // 🌟 新增：分页查询接口
+    @GetMapping("/page")
+    @Operation(summary = "分页查询", description = "分页查询,默认从第1页，查询10个")
+    public Result<Page<User>> getUsersByPage(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        Page<User> usersByPage = userService.getUsersByPage(page, size);
+        return Result.success(usersByPage);
     }
 }
