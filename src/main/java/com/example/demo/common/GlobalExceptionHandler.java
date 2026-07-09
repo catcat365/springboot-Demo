@@ -1,6 +1,7 @@
 package com.example.demo.common;
 
 
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -20,6 +21,15 @@ public class GlobalExceptionHandler {
         }
 
         return Result.fail("500 - 系统内部错误" + e.getMessage());
+    }
+
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Result<?> handleValidationgException(MethodArgumentNotValidException e) {
+        String message = e.getBindingResult().getFieldErrors().stream()
+                .map(error -> error.getField() + ":" + error.getDefaultMessage()).findFirst().orElse("参数验证失败");
+
+        return Result.fail(message);
     }
 
 }

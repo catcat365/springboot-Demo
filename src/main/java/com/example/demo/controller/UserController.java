@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.common.Result;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,20 +29,20 @@ public class UserController {
         return Result.success(allUsers);  // 🌟 包装为统一格式
     }
 
-
+    // 新增用户 - 加上 @Valid
     // 🌟 新增：创建用户的 POST 接口
     @PostMapping
-    public Result<User> createUser(@RequestBody User user) {
+    public Result<User> createUser(@Valid @RequestBody User user) {
         // @RequestBody 会自动将前端传来的 JSON 字符串转换为 User 对象
         User user1 = userService.saveUser(user);
         return Result.success(user1);
     }
 
-
+    // 更新用户 - 加上 @Valid
     // 🌟 更新用户 (PUT)
 // 路径示例: /api/users/1
     @PutMapping("/{id}")
-    public Result<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+    public Result<User> updateUser(@PathVariable Long id,@Valid  @RequestBody User user) {
         User user1 = userService.updateUser(id, user);
         return Result.success(user1);
     }
@@ -53,6 +54,6 @@ public class UserController {
     public Result<String> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
 
-        return Result.success("删除用户成功，ID=" + id); // 🌟 包装为统一格式
+        return Result.success("删除用户成功，ID= " + id); // 🌟 包装为统一格式
     }
 }
