@@ -30,3 +30,7 @@
 未登录直接访问：调用 GET /api/users，会返回 401 Unauthorized。
 登录获取 Token：调用 POST /api/auth/login，Body 传 {"username":"admin","password":"123456"}，返回类似 {"token":"eyJhbGciOi..."}。
 携带 Token 访问：在 Knife4j 左边点击“认证模块”，输入 Bearer 你的Token，然后再调用 GET /api/users，就能正常获取数据了！
+
+
+2026年07月10日 10:49:56
+✅ AOP 自动化日志记录
