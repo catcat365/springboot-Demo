@@ -12,8 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 
 @Aspect
@@ -36,7 +38,11 @@ public class LogAspect {
 
         // 2. 获取请求参数
         Object[] args = joinPoint.getArgs();
-        String params = objectMapper.writeValueAsString(args);
+        Object[] filteredArgs = Arrays.stream(args)
+                .filter(arg -> !(arg instanceof MultipartFile))
+                .toArray();  //TODO 暂时先过滤掉文件,否则会报错
+
+        String params = objectMapper.writeValueAsString(filteredArgs);
 
         // 3. 获取请求 URL
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();

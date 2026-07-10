@@ -21,6 +21,19 @@ spring:
         # 【关键】显式指定方言，防止自动检测失败
         dialect: org.hibernate.dialect.MySQLDialect
 
+
+# 文件上传配置
+# 文件保存的本地绝对路径（请根据你电脑的实际路径修改）
+file:
+  upload:
+    # 文件保存的本地绝对路径（请根据你电脑的实际路径修改）
+    path: D:/project_data/uploads/
+  url:
+    # 访问文件的 URL 前缀
+    prefix: /uploads/
+
+
+
 server:
   port: 8080
 
