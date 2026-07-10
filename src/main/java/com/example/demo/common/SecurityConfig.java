@@ -9,17 +9,32 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 public class SecurityConfig {
+
+
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        // todo 这个方法 废弃了， 后续需要改下
-        http.csrf().disable() // 前后端分离通常关闭 CSRF
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 无状态，不使用 Session
-                .and().authorizeHttpRequests()
-                // 放行登录接口、Swagger 文档接口
-                .requestMatchers("/api/auth/**", "/doc.html", "/webjars/**", "/v3/api-docs/**").permitAll()
-                // 其余所有接口都需要认证
-                .anyRequest().authenticated().and().addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http
+                // 关闭csrf防护（前后端分离项目常用）
+                .csrf(csrf -> csrf.disable())
+                // 跨域配置
+                .cors(cors -> cors.configure(http))
+                // 会话管理策略，这里配置成无状态适配JWT场景
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                // 配置请求权限规则
+                .authorizeHttpRequests(auth -> auth
+                        // 放行登录接口、公开接口
+                        //全部先放行
+                        .requestMatchers("/**").permitAll()
+                        .requestMatchers("/login", "/public/**","/api/auth/**", "/doc.html", "/webjars/**", "/v3/api-docs/**").permitAll()
+                        // 其余所有请求都需要认证
+                        .anyRequest().authenticated()
+                )
+                // 接入你自定义的JWT过滤器，放在用户名密码认证过滤器之前
+                .addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+
         return http.build();
     }
 }
