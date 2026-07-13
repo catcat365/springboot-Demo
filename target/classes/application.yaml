@@ -1,3 +1,0 @@
-spring:
-  profiles:
-    active: dev # 这里填写对应环境配置文件的后缀名，比如dev/test/prod
